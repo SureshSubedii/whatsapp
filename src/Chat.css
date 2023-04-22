@@ -24,4 +24,21 @@
     padding: 30px;
     overflow: scroll;
     background-image: url("https://e1.pxfuel.com/desktop-wallpaper/710/390/desktop-wallpaper-whatsapp-original-chat-backgrounds-%C2%B7-github-chat.jpg");
+    background-position: center;
+    background-repeat: repeat;
 }
+@media (min-width: 360px) and (max-width: 600px) {
+    .chat_header{
+        padding:1px;
+        font-size: 10px;
+        
+    }
+    .chat_headerInfo{
+        padding-left: 3px;
+    }
+    .chat_headerRight{
+        margin-right:15px
+    }
+   
+ 
+  }

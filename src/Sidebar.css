@@ -49,3 +49,18 @@
     background-color:white ;
 
 }
+@media (min-width: 300px) and (max-width: 600px) {
+    .sidebar_header{
+        padding:5px;
+    }
+    .sidebar{
+        font-size: 8px;
+       
+    }
+    .MuiIconButton-root .MuiSvgIcon-root {
+        font-size: 10px !important;
+        padding: 0.1px;
+    }
+  
+  }
+  
