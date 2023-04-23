@@ -8,13 +8,15 @@
     background-color: #ededed;
     display: flex;
     height:95vh;
-    width:95%;
+    width:98%;
     /* margin-top: -30px; */
     box-shadow:-1px 1px 20px -6px rgba(0,0,0,0.75);
+    
 }
 @media (min-width: 300px) and (max-width: 600) {
     .app_body{
         height:130vh;
+        margin-right: 3px;
 
 
     }
