@@ -30,7 +30,9 @@ changeStream.on("change",(change)=>{
     const messageDetails=change.fullDocument;
     pusher.trigger('messages','inserted',{ //messages-pusher channel name(could be anything)
       name:messageDetails.name,            //inserted-event name (could be anything)
-      message:messageDetails.message
+      message:messageDetails.message,
+      timestamp:messageDetails.timestamp,
+      received:messageDetails.received
     })
   }
   else{
@@ -43,7 +45,7 @@ changeStream.on("change",(change)=>{
 //middleware
 app.use(express.json()); // converts string into JSON 
 
-app.use(cors);
+app.use(cors());
 
 // app.use((req,res,next)=>{
 //   req.setHeader("Access-Control-Allow-Origin","*");    //This while can be replaced by using cors
@@ -53,7 +55,7 @@ app.use(cors);
 // });
 
 //DB config
-const connection_url='mongodb+srv://Suresh:1Lq05XJXjwEcy2vD@cluster1.5jnc7pa.mongodb.net/whatsappdb'
+const connection_url=process.env.MONGODB_URL;
 mongoose.connect(connection_url,{
     useNewUrlParser:true,
     useUnifiedTopology:true

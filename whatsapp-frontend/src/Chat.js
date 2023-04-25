@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Chat.css'
 import { Avatar, IconButton } from '@mui/material'
 import { AttachFile, InsertEmoticon, Mic, MoreVert, SearchOutlined } from '@mui/icons-material'
+import axios from './axios';
 
-function Chat() {
+function Chat({messages}) {
+  const [input, setinput] = useState("");
+  const sendMessage=  (e)=>{
+    e.preventDefault();
+     axios.post("/message/new",{
+      message:input,
+      name:"Suresh",
+      timestamp:"galaxy from far far away..",
+      received:true
+    })
+    setinput('');
+  }
   return (
     <div className="chat">
       <div className="chat_header">
@@ -29,44 +41,23 @@ function Chat() {
         </div>
       </div>
       <div className="chat_body">
-        <p className="chat_message">
-          <span className="chat_name">Loop</span>
-          This is the message
-          <span className="chat_timestamp">{new Date().toLocaleString()}</span>
+        {messages.map((message)=>(
+          <p className={`chat_message ${message.received && "chat_receiver"}` } key={message._id}>
+          <span className="chat_name">{message.name}</span>
+         {message.message}
+          <span className="chat_timestamp">{message.timestamp}</span>
         </p>
-        <p className="chat_message">
-          <span className="chat_name">Loop</span>
-          This is the message
-          <span className="chat_timestamp">{new Date().toLocaleString()}</span>
-        </p>
+        ))}
        
-        <p className="chat_receiver chat_message">
-          <span className="chat_name">Loop</span>
-          This is the message
-          <span className="chat_timestamp">{new Date().toLocaleString()}</span>
-        </p>
-        <p className="chat_receiver chat_message">
-          <span className="chat_name">Loop</span>
-          This is the message
-          <span className="chat_timestamp">{new Date().toLocaleString()}</span>
-        </p>
-        <p className="chat_receiver chat_message">
-          <span className="chat_name">Loop</span>
-          This is the message
-          <span className="chat_timestamp">{new Date().toLocaleString()}</span>
-        </p>
-        <p className="chat_receiver chat_message">
-          <span className="chat_name">Loop</span>
-          This is the message
-          <span className="chat_timestamp">{new Date().toLocaleString()}</span>
-        </p>
+       
+
 
       </div>
       <div className="chat_footer">
         <InsertEmoticon/>
         <form>
-          <input placeholder='Type a message'/>
-          <button type='submit'> Send a message</button>
+          <input value={input} onChange={e=>setinput(e.target.value)} placeholder='Type a message'/>
+          <button type='submit' onClick={sendMessage}> Send</button>
 
 
         </form>
