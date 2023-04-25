@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import Messages from './dbMessages.js';
 import Pusher from 'pusher';
 import cors from 'cors';
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env.local" });
 
 //app config
 const app=express();
@@ -16,7 +18,6 @@ const pusher = new Pusher({
   cluster: "mt1",
   useTLS: true
 });
-
 const db=mongoose.connection;
 db.once("open",()=>{
   console.log("Connected")
@@ -54,7 +55,7 @@ app.use(cors());
 
 // });
 
-//DB config
+//DB config  
 const connection_url=process.env.MONGODB_URL;
 mongoose.connect(connection_url,{
     useNewUrlParser:true,
