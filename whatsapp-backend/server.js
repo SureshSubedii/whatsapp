@@ -1,14 +1,56 @@
 //importing
-import express from 'express'
+import express from 'express';
 import mongoose from 'mongoose';
 import Messages from './dbMessages.js';
+import Pusher from 'pusher';
+import cors from 'cors';
 
 //app config
 const app=express();
 const port=process.env.PORT || 9000;
 
+const pusher = new Pusher({
+  appId: "1589131",
+  key: "21b2b234d78b48e7a505",
+  secret: "a5efbc654d27efc2f98c",
+  cluster: "mt1",
+  useTLS: true
+});
+
+const db=mongoose.connection;
+db.once("open",()=>{
+  console.log("Connected")
+  const msgCollection=db.collection("messagecontents");
+const changeStream=msgCollection.watch();
+
+changeStream.on("change",(change)=>{
+  console.log(change);
+
+  if(change.operationType=='insert'){
+    const messageDetails=change.fullDocument;
+    pusher.trigger('messages','inserted',{ //messages-pusher channel name(could be anything)
+      name:messageDetails.name,            //inserted-event name (could be anything)
+      message:messageDetails.message
+    })
+  }
+  else{
+    console.log("Error trigerring pusher!")
+  }
+})
+});
+
+
 //middleware
 app.use(express.json()); // converts string into JSON 
+
+app.use(cors);
+
+// app.use((req,res,next)=>{
+//   req.setHeader("Access-Control-Allow-Origin","*");    //This while can be replaced by using cors
+//   req.setHeader("Access-Control-Allow-Headers","*");
+//   next();
+
+// });
 
 //DB config
 const connection_url='mongodb+srv://Suresh:1Lq05XJXjwEcy2vD@cluster1.5jnc7pa.mongodb.net/whatsappdb'
@@ -16,6 +58,8 @@ mongoose.connect(connection_url,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 });
+
+
 
 //??????
 
