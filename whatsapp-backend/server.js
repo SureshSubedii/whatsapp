@@ -2,9 +2,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Messages from './dbMessages.js';
+import User from './dbUser.js';
 import Pusher from 'pusher';
 import cors from 'cors';
 import dotenv from "dotenv";
+import bcrypt from 'bcrypt';
 dotenv.config({ path: "./.env.local" });
 
 //app config
@@ -85,6 +87,31 @@ app.get("/message/sync",(req,res)=>{
     .catch(err=>res.status(500).send(err))
 
 })
+app.post("/createuser", async (req,res)=>{
+  const dbuser=req.body;
+  const salt= await bcrypt.genSalt(20);
+  const securePass=await bcrypt.hash(dbuser.password,salt);
+  let checkUser=await User.findOne({email:dbuser.email});
+    if(checkUser){
+      return res.status(400).send("User already exists with this email");
+
+    }
+  
+
+  User.create({
+    email:dbuser.email,
+    password:securePass
+  })
+  .then((data) => {
+    res.status(201).send(data);
+  })
+  .catch((error) => {
+    console.error(error);
+    res.status(500).send(error);
+  });
+});
+
+ 
 
 //Listen
 app.listen(port,()=>console.log(`Listening on port:${port}`));
