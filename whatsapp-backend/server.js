@@ -100,7 +100,8 @@ app.post("/createuser", async (req,res)=>{
 
   User.create({
     email:dbuser.email,
-    password:securePass
+    password:securePass,
+    name:dbuser.name
   })
   .then((data) => {
     res.status(201).send(data);

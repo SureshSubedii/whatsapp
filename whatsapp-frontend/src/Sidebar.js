@@ -9,7 +9,7 @@ function sidebar() {
   return (
     <div className="sidebar">
     <div className="sidebar_header">
-      <Avatar src=""/> 
+      <Avatar src="https://wallpapers.com/images/high/aesthetic-anime-profile-pictures-tpgavbdrvn6uf21a.webp"/> 
 
       <div className="sidebar_headerRight">
       <IconButton>

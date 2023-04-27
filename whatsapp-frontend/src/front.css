@@ -1,0 +1,58 @@
+.front{
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    width: 100%;
+}
+.form{
+    display: flex;
+    flex-direction: column !important;
+}
+.front>img{
+    width:37vw;
+    height: 40vh;
+}
+.form>input{
+    margin-top: 10px;
+    width: 30vw;
+    height: 4vh;
+}
+.front>h1{
+    margin-bottom: 20px;
+    margin-top: -30px;
+    color: rgb(77, 77, 77);
+
+}
+.front_buttons{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    /* justify-content: space-between; */
+    place-items: center;
+    /* width: calc(25%); */
+
+  
+}
+.front_buttons>h2{
+    color: rgb(77, 77, 77);
+}
+
+.front_buttons>button{
+    background-color: rgb(15, 228, 132);
+    border:none ;
+    padding:7px;
+    border-radius: 8px;
+    color: white;
+}
+.front_buttons>button:hover{
+    cursor: pointer;
+    background-color: rgb(19, 255, 176);
+
+
+}
+@media (min-width: 280px) and (max-width: 650px) {
+    .front_buttons>h2{
+        font-size: 12px;
+    }
+
+}

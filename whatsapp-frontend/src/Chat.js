@@ -19,9 +19,9 @@ function Chat({messages}) {
   return (
     <div className="chat">
       <div className="chat_header">
-        <Avatar/>
+        <Avatar src="https://qph.cf2.quoracdn.net/main-qimg-d12513d5003db4b5db1bf995b571997a-lq"/>
         <div className="chat_headerInfo">
-          <h3>Room Name</h3>
+          <h3>Group chat</h3>
           <p>Last seen at ...</p>
 
         </div>

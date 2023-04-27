@@ -4,6 +4,7 @@ import Chat from './Chat'
 import { useEffect, useRef, useState } from 'react';
 import Pusher from 'pusher-js';
 import axios from './axios';
+import Front from './Front';
 
 function App() {
   document.body.style.backgroundColor='#dadbd3'
@@ -42,8 +43,9 @@ function App() {
   return (
     <div className="app">
       <div className="app_body">
-     <Sidebar/>
-     <Chat messages={message}/>
+     {/* <Sidebar/>
+     <Chat messages={message}/> */}
+     <Front/>
       </div>
     
     </div>
