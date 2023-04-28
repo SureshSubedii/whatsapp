@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 import bcrypt from 'bcrypt';
 dotenv.config({ path: "./.env.local" });
 import jwt from 'jsonwebtoken';
-
+ let success=false;
 //app config
 const app=express();
 const port=process.env.PORT || 9000;
@@ -89,6 +89,7 @@ app.get("/message/sync",(req,res)=>{
 
 })
 app.post("/createuser", async (req,res)=>{
+  success=false;
   const dbuser=req.body;
   const salt= await bcrypt.genSalt(20);
   const securePass=await bcrypt.hash(dbuser.password,salt);
@@ -107,7 +108,9 @@ app.post("/createuser", async (req,res)=>{
   .then((data) => {
     // res.status(201).send(data);
     const token=jwt.sign({id:data.id},"mamamamal");
-    res.json({data,token});
+    success=true
+
+    res.json({data,token,success});
   })
   .catch((error) => {
     console.error(error);
@@ -116,6 +119,7 @@ app.post("/createuser", async (req,res)=>{
 });
 
 app.post("/login", async (req,res)=>{
+  success=false;
   const loginUser=await User.findOne({email:req.body.email});
   try{
     if(!loginUser){
@@ -125,8 +129,10 @@ app.post("/login", async (req,res)=>{
   if(!checkPass){
     res.status(400).send("Login with correct credentials");
   }
-  const atoken=jwt.sign({id:loginUser.id},"mamamamal");
-  res.json({atoken});
+  const token=jwt.sign({id:loginUser.id},"mamamamal");
+  success=true
+  res.json({token,success});
+  
 }
 catch(err){
   res.status(500).send(err)
