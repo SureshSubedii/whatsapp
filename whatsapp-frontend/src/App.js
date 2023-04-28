@@ -43,9 +43,9 @@ function App() {
   return (
     <div className="app">
       <div className="app_body">
-     {/* <Sidebar/>
-     <Chat messages={message}/> */}
-     <Front/>
+     <Sidebar/>
+     <Chat messages={message}/>
+     {/* <Front/> */}
       </div>
     
     </div>

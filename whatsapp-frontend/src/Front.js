@@ -10,7 +10,6 @@ function Front() {
 
 
   const handleSignIn=(e)=>{
-    e.preventDefault();
     axios.post("/createuser",{
       name:name,
       email:email,

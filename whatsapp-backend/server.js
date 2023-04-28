@@ -8,6 +8,7 @@ import cors from 'cors';
 import dotenv from "dotenv";
 import bcrypt from 'bcrypt';
 dotenv.config({ path: "./.env.local" });
+import jwt from 'jsonwebtoken';
 
 //app config
 const app=express();
@@ -98,19 +99,41 @@ app.post("/createuser", async (req,res)=>{
     }
   
 
-  User.create({
+ User.create({
     email:dbuser.email,
     password:securePass,
     name:dbuser.name
   })
   .then((data) => {
-    res.status(201).send(data);
+    // res.status(201).send(data);
+    const token=jwt.sign({id:data.id},"mamamamal");
+    res.json({data,token});
   })
   .catch((error) => {
     console.error(error);
     res.status(500).send(error);
   });
 });
+
+app.post("/login", async (req,res)=>{
+  const loginUser=await User.findOne({email:req.body.email});
+  try{
+    if(!loginUser){
+    res.status(400).send("Login with correct credentials");
+  }
+  const checkPass= await bcrypt.compare(req.body.password,loginUser.password);
+  if(!checkPass){
+    res.status(400).send("Login with correct credentials");
+  }
+  const atoken=jwt.sign({id:loginUser.id},"mamamamal");
+  res.json({atoken});
+}
+catch(err){
+  res.status(500).send(err)
+}
+
+
+})
 
  
 
