@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import './front.css';
 import axios from './axios';
-import { useNavigate } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import { login } from './stateManagement/userSlice';
 
 
 function Front() {
   const [email, setemail] = useState('');
   const [name, setname] = useState('');
   const [password, setpassword] = useState('');
-  const navigate=useNavigate()
+  const dispatch=useDispatch();
 
 
   const handleSignIn = async (e) => {
@@ -23,31 +24,40 @@ function Front() {
       setemail('');
       setname('');
       const result =  signin.data;
-      console.log(result);
-      if(result.success){
-        navigate("/bod");
-        }
+      // console.log(result);
+      sessionStorage.setItem('token',result.token);
+      sessionStorage.setItem('username',result.username);
+      dispatch(login(result.token))
+      
+
+    
 
     } catch (error) {
       console.error(error);
     }
   };
+
+
   const handleLogin=async(e)=>{
     e.preventDefault();
     try {
-      const login = await axios.post("/login",{
+      const loginResponse = await axios.post("/login",{
         name: name,
         email: email,
         password: password
       });
-      const result = login.data;
+      const result = loginResponse.data;
       setpassword('');
       setemail('');
       setname('');
-      console.log(result.token,result.success)
-      if(result.success){
-      navigate("/bod");
-      }
+      sessionStorage.setItem('token',result.token);
+      sessionStorage.setItem('username',result.username);
+      console.log('first')
+      dispatch(login(sessionStorage.getItem('token')));
+
+
+
+      
 
 
   }

@@ -7,7 +7,6 @@ import axios from './axios';
 
 function Deff() {
     const [message, setmessage] = useState([]);
-    const chatContainerRef = useRef(null);
     useEffect(() => {
       axios.get('/message/sync')
       .then(response=>{
@@ -26,10 +25,7 @@ function Deff() {
       channel.bind('inserted', (newMessage)=> {
         setmessage([...message,newMessage]);
       });
-      if (chatContainerRef.current) {
-        console.log(chatContainerRef.current)
-        chatContainerRef.current.scrollTop += chatContainerRef.current.scrollHeight; // Restore scroll position after new message is added
-      }
+     
     
      return ()=>{
       pusher.unbind_all();

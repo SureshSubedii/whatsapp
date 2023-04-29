@@ -127,17 +127,16 @@ app.post("/login", async (req,res)=>{
   }
   const checkPass= await bcrypt.compare(req.body.password,loginUser.password);
   if(!checkPass){
-    res.status(400).send("Login with correct credentials");
+    res.status(400).send("Login with correct credentials"); 
   }
-  const token=jwt.sign({id:loginUser.id},"mamamamal");
+  const token=jwt.sign({id:loginUser.id},"mamamamal"); 
   success=true
-  res.json({token,success});
+  res.json({token,success,username:loginUser.name}); //only sucess and AuthToken can be accessed from frontend now
   
 }
 catch(err){
   res.status(500).send(err)
 }
-
 
 })
 

@@ -1,30 +1,39 @@
 import './App.css';
 import Front from './Front';
 import DefaultComp from './DefaultComp';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkUser, login } from './stateManagement/userSlice';
 
 
-import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 
 function App() {
   document.body.style.backgroundColor='#dadbd3'
+  const checkIflogged=useSelector(checkUser);
+  const dispatch=useDispatch();
 
-  // console.log(message);
+  useEffect(() => {
+    dispatch(login(sessionStorage.getItem('token')))
+
+  }, [])
+  
   
   return (
-    <Router>
     <div className="app">
       <div className="app_body">
-        <Routes>
-    <Route path="/bod" element={<DefaultComp/>} /> 
+ 
+    {checkIflogged?(<DefaultComp/>)
+    :
+   ( <Front/>) 
+
+    }
+     
       
-    <Route path="/" element={<Front/>} /> 
     
      
-     </Routes>
       </div>
     
     </div>
-    </Router>
   );
 }
 
