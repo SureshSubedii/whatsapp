@@ -123,11 +123,11 @@ app.post("/login", async (req,res)=>{
   const loginUser=await User.findOne({email:req.body.email});
   try{
     if(!loginUser){
-    res.status(400).send("Login with correct credentials");
+    return res.status(400).send("Login with correct credentials");
   }
   const checkPass= await bcrypt.compare(req.body.password,loginUser.password);
   if(!checkPass){
-    res.status(400).send("Login with correct credentials"); 
+    return res.status(400).send("Login with correct credentials"); 
   }
   const token=jwt.sign({id:loginUser.id},"mamamamal"); 
   success=true

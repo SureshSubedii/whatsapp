@@ -13,13 +13,12 @@ function Sidebar() {
   return (
     <div className="sidebar">
     <div className="sidebar_header">
-     <IconButton><Avatar src="https://wallpapers.com/images/high/aesthetic-anime-profile-pictures-tpgavbdrvn6uf21a.webp" onClick={() => {
+     <IconButton onClick={() => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('username');
-  dispatch(logout());
-}}
+  dispatch(logout());}}><Avatar src="https://wallpapers.com/images/high/aesthetic-anime-profile-pictures-tpgavbdrvn6uf21a.webp" 
 /> </IconButton> 
-      <h3>{sessionStorage.getItem('username')}</h3>
+      <h3 style={{"marginTop":"10px","marginLeft":"-10px"}}>{sessionStorage.getItem('username')}</h3>
 
       <div className="sidebar_headerRight">
       <IconButton>

@@ -9,11 +9,15 @@ function Front() {
   const [email, setemail] = useState('');
   const [name, setname] = useState('');
   const [password, setpassword] = useState('');
+  const [loading, setloading] = useState('');
+
   const dispatch=useDispatch();
 
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setloading("Loading ..Please Wait..");
+
     try {
       const signin = await axios.post("/createuser",{
         name: name,
@@ -34,12 +38,17 @@ function Front() {
 
     } catch (error) {
       console.error(error);
+    alert(error.response.data);
+
     }
-  };
+  setloading("");
+
+  }
 
 
   const handleLogin=async(e)=>{
     e.preventDefault();
+    setloading("Loading ..Please Wait..");
     try {
       const loginResponse = await axios.post("/login",{
         name: name,
@@ -57,13 +66,17 @@ function Front() {
 
 
 
+
       
 
 
   }
   catch (error) {
-    console.error(error);
+    // console.error(error.response.data);
+    alert(error.response.data);
   }
+  setloading("");
+
 } 
   
   return (
@@ -80,7 +93,10 @@ function Front() {
       <h2>{""} If you are new,then: </h2>
       <button onClick={handleSignIn}>Sign up</button> 
       </div>
-      
+      <div className="loading" style={{"marginTop":"20px"}}>
+      <h3>{loading}</h3>
+
+      </div>
 
     </div>
   )
