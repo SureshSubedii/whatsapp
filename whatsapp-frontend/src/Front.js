@@ -19,6 +19,9 @@ function Front() {
     setloading("Loading ..Please Wait..");
 
     try {
+      if(!name || !email || !password){
+        alert("Enter all information")
+      } else{
       const signin = await axios.post("/createuser",{
         name: name,
         email: email,
@@ -32,6 +35,7 @@ function Front() {
       sessionStorage.setItem('token',result.token);
       sessionStorage.setItem('username',result.username);
       dispatch(login(result.token))
+    }
       
 
     
@@ -49,21 +53,29 @@ function Front() {
   const handleLogin=async(e)=>{
     e.preventDefault();
     setloading("Loading ..Please Wait..");
+  
     try {
-      const loginResponse = await axios.post("/login",{
-        name: name,
-        email: email,
-        password: password
-      });
-      const result = loginResponse.data;
-      setpassword('');
-      setemail('');
-      setname('');
-      sessionStorage.setItem('token',result.token);
-      sessionStorage.setItem('username',result.username);
-      console.log('first')
-      dispatch(login(sessionStorage.getItem('token')));
 
+      if(!email || !password){
+        alert("Enter all information")
+      }
+      else{
+        const loginResponse = await axios.post("/login",{
+          name: name,
+          email: email,
+          password: password
+        });
+        const result = loginResponse.data;
+        setpassword('');
+        setemail('');
+        setname('');
+        sessionStorage.setItem('token',result.token);
+        sessionStorage.setItem('username',result.username);
+        console.log('first')
+        dispatch(login(sessionStorage.getItem('token')));
+  
+      }
+     
 
 
 
