@@ -49,7 +49,11 @@ changeStream.on("change",(change)=>{
 //middleware
 app.use(express.json()); // converts string into JSON 
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // app.use((req,res,next)=>{
 //   req.setHeader("Access-Control-Allow-Origin","*");    //This while can be replaced by using cors
