@@ -10,9 +10,9 @@ import bcrypt from 'bcrypt';
 dotenv.config({ path: "./.env.local" });
 import jwt from 'jsonwebtoken';
  let success=false;
-//app config
+//app config 
 const app=express();
-const port=process.env.PORT || 9000;
+const port=process.env.PORT || 9000; 
 
 const pusher = new Pusher({
   appId: "1589131",
@@ -28,7 +28,7 @@ db.once("open",()=>{
 const changeStream=msgCollection.watch();
 
 changeStream.on("change",(change)=>{
-  console.log(change);
+  // console.log(change);
 
   if(change.operationType=='insert'){
     const messageDetails=change.fullDocument;
