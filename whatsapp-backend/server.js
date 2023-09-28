@@ -12,7 +12,13 @@ import jwt from 'jsonwebtoken';
  let success=false;
 //app config 
 const app=express();
-const port=process.env.PORT || 9000; 
+const port=process.env.PORT || 9000;
+
+app.use(cors({
+  origin: '*', /* https://whatsapp-xe18.vercel.app*/
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 const pusher = new Pusher({
   appId: "1589131",
@@ -28,7 +34,7 @@ db.once("open",()=>{
 const changeStream=msgCollection.watch();
 
 changeStream.on("change",(change)=>{
-  // console.log(change);
+  console.log(change);
 
   if(change.operationType=='insert'){
     const messageDetails=change.fullDocument;
@@ -47,13 +53,9 @@ changeStream.on("change",(change)=>{
 
 
 //middleware
-app.use(express.json()); // converts string into JSON 
+app.use(express.json()); // converts string into JSON (parses into object)
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+
 
 // app.use((req,res,next)=>{
 //   req.setHeader("Access-Control-Allow-Origin","*");    //This while can be replaced by using cors
@@ -71,7 +73,6 @@ mongoose.connect(connection_url,{
 
 
 
-//??????
 
 //routes
 app.get('/',(req,res)=>res.status(200).send("Hello World"));
@@ -95,7 +96,7 @@ app.get("/message/sync",(req,res)=>{
 app.post("/createuser", async (req,res)=>{
   success=false;
   const dbuser=req.body;
-  const salt= await bcrypt.genSalt(20);
+  const salt= await bcrypt.genSalt(10);
   const securePass=await bcrypt.hash(dbuser.password,salt);
   let checkUser=await User.findOne({email:dbuser.email});
     if(checkUser){
@@ -135,7 +136,7 @@ app.post("/login", async (req,res)=>{
   }
   const token=jwt.sign({id:loginUser.id},"mamamamal"); 
   success=true
-  res.json({token,success,username:loginUser.name}); //only sucess and AuthToken can be accessed from frontend now
+  res.json({token,success,username:loginUser.name}); // sucess and AuthToken can be accessed from frontend now
   
 }
 catch(err){
